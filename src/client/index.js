@@ -32,7 +32,6 @@ window.state = store.getState();
 
 console.log('mounting react app ...');  // eslint-disable-line no-console
 
-
 const root = (
   <Provider store={store}>
     <Router history={history}>

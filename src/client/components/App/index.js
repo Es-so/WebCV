@@ -11,7 +11,9 @@ export const Content = styled(Layout.Content)`
   display: flex;
   justify-content: center;
   margin-top: 10px;
-  min-height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
 `;
 
 const App = ({ home, projects, contact }) => {
