@@ -15,12 +15,7 @@ import App from './components/App';
 
 const initialState = {
   home: {},
-  projects: {
-    c: {},
-    python: {},
-    web: {},
-    security: {},
-  },
+  projects: {},
   contact: {},
 };
 
