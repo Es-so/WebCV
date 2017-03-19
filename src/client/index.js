@@ -14,9 +14,6 @@ import configureStore from './store';
 import App from './components/App';
 
 const initialState = {
-  home: {},
-  projects: {},
-  contact: {},
 };
 
 const store = configureStore(initialState);
