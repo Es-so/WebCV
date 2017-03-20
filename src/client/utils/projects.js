@@ -121,7 +121,7 @@ export const projects = {
     todoList: {
       id: (id += 1),
       title: 'Todo list',
-      tags: ['react', 'javascript', 'node'],
+      tags: ['react', 'javascript', 'node', 'mongo'],
       content: 'Todo list with task and multi-user gestion with socket',
       githubLink: '#',
       size: 5,
@@ -179,7 +179,7 @@ export const projects = {
     rootMeWeb: {
       id:(id += 1),
       title: 'Root me Web Server/Client',
-      tags: ['javascript', 'php', 'webTools'],
+      tags: ['javascript', 'php', 'webTools', 'sql'],
       content: 'Series of challenge from plateform www.root-me.org in categorie web server and web client',
       githubLink: '#',
       size: 8,
@@ -225,6 +225,7 @@ export const tagColors = {
   asm: 'lightgrey',
   lua: 'brown',
   webTools: 'wheat',
+  mongo: 'gold',
 }
 
 export const titleColors = {

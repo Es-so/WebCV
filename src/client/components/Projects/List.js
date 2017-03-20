@@ -5,6 +5,8 @@ import { Card, Icon, Tag, Button } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
+
 import { loadProjects, getTypeList } from '../../actions/projects';
 import { getWichProjects } from '../../selectors/projects';
 import { tagColors, titleColors } from '../../utils/projects';
@@ -52,7 +54,7 @@ class List extends React.Component {
     if (!projects) return null;
     return(
       <Wrapper>
-      {
+        {
         R.map((project) => 
           (<Card
             key={project.id}
@@ -77,8 +79,8 @@ class List extends React.Component {
             <Footer tags={project.tags} tryIt={project.tryIt} />
           </Card>)
       ,projects)
-    }
-      </Wrapper>
+      }
+    </Wrapper>
     );
   }
 }
@@ -96,4 +98,4 @@ const actions = { loadProjects };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));

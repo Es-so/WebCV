@@ -2,10 +2,14 @@ import React from 'react';
 import Home from './components/Home'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
+import ReactMarkdown from 'react-markdown';
+
+const input = '# This is a header\n\nAnd this is a paragraph';
 
 const Tt = () =>
   <div>
   on progress
+    <ReactMarkdown source={input} />,
   </div>
 ;
 
