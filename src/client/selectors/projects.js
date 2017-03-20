@@ -1,18 +1,18 @@
 import R from 'ramda';
 import { createSelector } from 'reselect';
 
-const getArraysOfProjects = (projects, type) => R.values(R.map(R.values, projects));
-const getArrayOfProjects = projects => R.reduce((accu, value) => ([ ...accu, ...value ]), [])(projects)
+const getArraysOfProjects = R.compose(R.map(R.values), R.values);
+const getArrayOfProjects = R.reduce((accu, value) => ([ ...accu, ...value ]), []);
 const regexp = filter => new RegExp(filter, 'i');
 const match = (filter, target) => R.match(regexp(filter), target);
-const matchTags = (tags = [''], project) => R.find(t => R.find(pt => (t ===  pt) , project.tags))(tags);
-const filterTags = (tags, projects) => R.filter(p => matchTags(tags, p), projects);
-const filterProject = (filter, option, projects) => R.filter(project => match(filter, project[option]).length, projects)
+const matchTags = (tags = [''], project) => R.find(tag => R.find(projectTags => (tag ===  projectTags) , project.tags))(tags);
+const filterTags = (tags, projects) => tags.length ? R.filter(p => matchTags(tags, p), projects) : projects;
+const filterProjects = (filter, option, projects) => R.filter(project => match(filter, project[option]).length, projects)
+const filterCategorie = (type, allProjects) => type !== 'all' ? R.filter(({ categorie }) => (categorie === R.toLower(type)), allProjects) : allProjects;
 
-const getVisibleProject = (type = 'all', projects, filter, option = 'title', tags = []) => {
+const getVisibleProject = (type = 'all', projects, filter = '', option = 'title', tags = []) => {
   const allProjects = R.compose(getArrayOfProjects, getArraysOfProjects)(projects);
-  if (option === 'tags') return (tags.length ? filterTags(tags ,allProjects) : allProjects);
-  return filterProject(filter, option, (type === 'all' ? allProjects : (R.filter(e => (e.categorie === R.toLower(type)), allProjects))))
+  return option === 'tags' ? filterTags(tags ,filterCategorie(type, allProjects)) : filterProjects(filter, option, filterCategorie(type, allProjects));
 };
 
 // _______________________________________________________________ \\
