@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory'
+import history from './history';
 import { Route, Router, IndexRoute, browserHistory } from 'react-router'
 import {
   ConnectedRouter,
@@ -18,7 +19,6 @@ const initialState = {
 
 const store = configureStore(initialState);
 const main = window.document.getElementById('__SKdevelop__');
-const history = createHistory()
 window.store = store;
 window.state = store.getState();
 

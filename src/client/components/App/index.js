@@ -16,8 +16,8 @@ export const Content = styled(Layout.Content)`
   width: 90%;
 `;
 
-const App = ({ home, projects, contact }) => {
-  const handleClick = (path) => history.push(path);
+const App = ({ history,home, projects, contact }) => {
+  const handleClick = (path) => history.push(`/${path}`);
   return(
     <div>
       <Header onClick={handleClick} />
@@ -47,4 +47,4 @@ const actions = {};
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

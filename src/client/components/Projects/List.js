@@ -49,7 +49,7 @@ class List extends React.Component {
         R.map((project) => 
           (<Card
             key={project.id}
-            title={project.title}
+            title={<a href="#"> {project.title}</a>}
             extra={
               <a style={{fontSize: '1.5em'}} href="#">
                 <Icon type="github" onClick={(e) => console.log(e)} />
