@@ -2,7 +2,8 @@ import React from 'react';
 
 const Home = () =>
   <div>
-  Home
+  Home <br />
+  Work in Progress
   </div>
 ;
 

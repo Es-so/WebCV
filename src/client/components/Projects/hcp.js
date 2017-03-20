@@ -3,7 +3,7 @@ import { Input, Radio, Menu, Dropdown, Icon, Button, Select } from 'antd';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeList, getFiltering, getTags } from '../../actions/projects';
+import { getTypeList, getFiltering } from '../../actions/projects';
 import { tagColors } from '../../utils/projects';
 import R from 'ramda';
 
@@ -42,47 +42,33 @@ export const menu = (
 
 class Search extends React.Component {
   state = {
-    searchOption: 'title',
-    filter: '',
-  }
-  componentWillMount() {
-    const { getFiltering } = this.props;
+    searchOption: 'Title'
   }
 
   handleSelectFilter = (e) => {
-    const { getFiltering } = this.props;
-    this.setState({ searchOption: e },
-      () => getFiltering(this.state.filter, this.state.searchOption));
-  }
-
-  handleTagSelected = (tags) => {
-    const { getTags, getFiltering } = this.props;
-    getTags(tags);
-    getFiltering(tags, 'tags');
+    this.setState({ searchOption: e });
   }
 
   handleInputFilling = ({ target: { value } }) => {
-    const { getFiltering } = this.props;
-    this.setState({filter: value }, () => {
-      getFiltering(this.state.filter, this.state.searchOption)
-    });
+    getFiltering(value, this.state.searchOption);
+    console.log(value)
   }
 
   render() {
     return(
       <InputGroupStyle compact >
-        <Select defaultValue="title" size="large" style={{ width: '35%' }} onChange={this.handleSelectFilter} >
-          <Option value="tags">Tags</Option>
-          <Option value="title">Title</Option>
-          <Option value="content">Content</Option>
+        <Select defaultValue="Title" size="large" style={{ width: '35%' }} onChange={this.handleSelectFilter} >
+          <Option value="Tags">Tags</Option>
+          <Option value="Title">Title</Option>
+          <Option value="Content">Content</Option>
         </Select>
-        {this.state.searchOption === 'tags' &&
+        {this.state.searchOption === 'Tags' &&
           <Select
             size="large"
             multiple
             style={{ width: '100%'}}
             placeholder="Select tag(s)"
-            onChange={this.handleTagSelected}
+            onChange={(e) => console.log(e)}
           >
             { R.map(tag => <Option key={tag} value={tag}>{tag}</Option>, R.keys(tagColors)) }
           </Select>
@@ -95,7 +81,7 @@ class Search extends React.Component {
   }
 }
 
-export const Header = ({ getTypeList, getFiltering, getTags }) =>
+export const Header = ({ getTypeList }) =>
   <Wrapper>
     <Radio.Group
       size="large"
@@ -113,14 +99,14 @@ export const Header = ({ getTypeList, getFiltering, getTags }) =>
         Sort by <Icon type="down" />
       </Button>
     </Dropdown>
-    <Search getFiltering={getFiltering} getTags={getTags} />
+    <Search />
   </Wrapper>
 ;
 
-const actions = { getTypeList, getFiltering, getTags };
+const actions = { getTypeList, getFiltering };
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header, Search);

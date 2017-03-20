@@ -22,12 +22,16 @@ const FooterStyle = styled.div`
   padding: 10px;
 `;
 
-const Footer = ({ tags }) =>
+const Footer = ({ tags, tryIt }) =>
   <FooterStyle>
   {
   	R.map(tag => (<Tag key={tag} color={tagColors[tag]}>{tag}</Tag>) , tags)
   }
+  { tryIt ?
     <Button size="small" style={{float: 'right', background: 'whitesmoke'}}>Try it!</Button>
+    :
+    null
+  }
   </FooterStyle>
 ;
 
@@ -37,27 +41,25 @@ class List extends React.Component {
     loadProjects();
   }
   render() {
-    const { projects, type } = this.props;
+    const { projects } = this.props;
     if (!projects) return null;
-    console.log('projects ===>', projects, 'type ===>', type)
-    console.log('this.props ==>', this.props);
     return(
       <Wrapper>
-    {
-      R.map((project) => 
-        (<Card
-          key={project.id}
-          title={project.name}
-          extra={
-            <a style={{fontSize: '1.5em'}} href="#">
-              <Icon type="github" onClick={() => console.log(type)} />
-            </a>
-          }
-          style={{ width: 350, margin: '10px' }}
-        >
-          <p style={{ marginBottom: '20px' }} >{project.description}</p>
-          <Footer tags={project.tags} />
-        </Card>)
+      {
+        R.map((project) => 
+          (<Card
+            key={project.id}
+            title={project.title}
+            extra={
+              <a style={{fontSize: '1.5em'}} href="#">
+                <Icon type="github" onClick={(e) => console.log(e)} />
+              </a>
+            }
+            style={{ width: 350, margin: '10px' }}
+          >
+            <p style={{ marginBottom: '20px' }} >{project.content}</p>
+            <Footer tags={project.tags} tryIt={project.tryIt} />
+          </Card>)
       ,projects)
     }
       </Wrapper>
@@ -67,9 +69,11 @@ class List extends React.Component {
 
 const mapStateToProps = state => ({
   projects: getAllProjects(state),
-  type: state.projects.type,
+  typeProject: state.projects.typeProject,
   filter: state.projects.filter,
   sort: state.projects.sort,
+  option: state.projects.option,
+  tags: state.projects.tags,
 });
 
 const actions = { loadProjects };
