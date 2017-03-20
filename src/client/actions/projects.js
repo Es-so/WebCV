@@ -7,11 +7,18 @@ export const SORT_PROJECT_LIST = 'projects/sortProjectList';
 export const GET_TYPE_LIST = 'projects/getTypeList';
 export const GET_FILTERING = 'projects/getFiltering';
 export const GET_TAGS = 'projects/getTags';
+export const GET_SORT = 'projects/getSort';
 
 export const getTypeList = typeProject => ({
   type: GET_TYPE_LIST,
   typeProject,
 });
+
+export const getSort = sort => ({
+  type: GET_SORT,
+  sort,
+});
+
 
 export const getTags = tags => ({
   type: GET_TAGS,

@@ -3,7 +3,7 @@ import { Input, Radio, Menu, Dropdown, Icon, Button, Select } from 'antd';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeList, getFiltering, getTags } from '../../actions/projects';
+import { getTypeList, getFiltering, getTags, getSort } from '../../actions/projects';
 import { tagColors } from '../../utils/projects';
 import R from 'ramda';
 
@@ -26,27 +26,10 @@ const InputGroupStyle = styled(InputGroup)`
   align-items: flex-start;
 `;
 
-export const menu = (
-  <Menu>
-    <Menu.Item key="0">
-      <a href="#">Alpha (default)</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="1">
-      <a href="#">Most recent</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="3">Project size</Menu.Item>
-  </Menu>
-);
-
 class Search extends React.Component {
   state = {
     searchOption: 'title',
     filter: '',
-  }
-  componentWillMount() {
-    const { getFiltering } = this.props;
   }
 
   handleSelectFilter = (e) => {
@@ -95,29 +78,40 @@ class Search extends React.Component {
   }
 }
 
-export const Header = ({ getTypeList, getFiltering, getTags }) =>
-  <Wrapper>
-    <Radio.Group
-      size="large"
-      defaultValue="all"
-      onChange={(e) => getTypeList(e.target.value)}
-    >
-      <Radio.Button key="all" value="all">All</Radio.Button>
-      <Radio.Button key="C" value="C">C</Radio.Button>
-      <Radio.Button key="Web" value="Web">Web</Radio.Button>
-      <Radio.Button key="Python" value="Python">Python</Radio.Button>
-      <Radio.Button key="Security" value="security">Security</Radio.Button>
-    </Radio.Group>
-    <Dropdown overlay={menu} trigger={['click']}>
-      <Button size="large" href="#">
-        Sort by <Icon type="down" />
-      </Button>
-    </Dropdown>
-    <Search getFiltering={getFiltering} getTags={getTags} />
-  </Wrapper>
-;
+export const Header = ({ getTypeList, getFiltering, getTags, getSort }) => {
+  const menu =
+    <Menu onClick={({ key }) => getSort(key)}>
+      <Menu.Item key="title">Alpha (default)</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="dateOf">Most recent</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="size">Project size</Menu.Item>
+    </Menu>
+  ;
+  return(
+    <Wrapper>
+      <Radio.Group
+        size="large"
+        defaultValue="all"
+        onChange={(e) => getTypeList(e.target.value)}
+      >
+        <Radio.Button key="all" value="all">All</Radio.Button>
+        <Radio.Button key="C" value="C">C</Radio.Button>
+        <Radio.Button key="Web" value="Web">Web</Radio.Button>
+        <Radio.Button key="Python" value="Python">Python</Radio.Button>
+        <Radio.Button key="Security" value="security">Security</Radio.Button>
+      </Radio.Group>
+      <Dropdown overlay={menu} trigger={['click']} >
+        <Button size="large" href="#">
+          Sort by <Icon type="down" />
+        </Button>
+      </Dropdown>
+      <Search getFiltering={getFiltering} getTags={getTags} />
+    </Wrapper>
+  )
+};
 
-const actions = { getTypeList, getFiltering, getTags };
+const actions = { getTypeList, getFiltering, getTags, getSort };
 
 const mapStateToProps = state => state;
 

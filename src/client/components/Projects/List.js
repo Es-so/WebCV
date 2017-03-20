@@ -5,7 +5,7 @@ import { Card, Icon, Tag, Button } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loadProjects, getTypeList } from '../../actions/projects';
-import { getAllProjects } from '../../selectors/projects';
+import { getWichProjects } from '../../selectors/projects';
 import { tagColors } from '../../utils/projects';
 
 const Wrapper = styled.div`
@@ -68,12 +68,12 @@ class List extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  projects: getAllProjects(state),
   typeProject: state.projects.typeProject,
   filter: state.projects.filter,
   sort: state.projects.sort,
   option: state.projects.option,
   tags: state.projects.tags,
+  projects: getWichProjects(state),
 });
 
 const actions = { loadProjects };
