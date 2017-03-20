@@ -10,7 +10,6 @@ import R from 'ramda';
 const InputGroup = Input.Group;
 const Option = Select.Option;
 
-
 const Wrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
@@ -39,39 +38,52 @@ class Search extends React.Component {
   }
 
   handleTagSelected = (tags) => {
-    const { getTags, getFiltering } = this.props;
+    const { getTags } = this.props;
     getTags(tags);
-    getFiltering(tags, 'tags');
   }
 
   handleInputFilling = ({ target: { value } }) => {
     const { getFiltering } = this.props;
-    this.setState({filter: value }, () => {
-      getFiltering(this.state.filter, this.state.searchOption)
-    });
+    const { searchOption } = this.state;
+    this.setState({ filter: value }, () => getFiltering(this.state.filter, searchOption));
   }
 
   render() {
+    const {
+      state : { searchOption },
+      handleSelectFilter,
+      handleInputFilling,
+      handleTagSelected,
+    } = this;
     return(
       <InputGroupStyle compact >
-        <Select defaultValue="title" size="large" style={{ width: '35%' }} onChange={this.handleSelectFilter} >
+        <Select
+          defaultValue="title"
+          size="large"
+          style={{ width: '35%' }}
+          onChange={handleSelectFilter}
+        >
           <Option value="tags">Tags</Option>
           <Option value="title">Title</Option>
           <Option value="content">Content</Option>
         </Select>
-        {this.state.searchOption === 'tags' &&
-          <Select
-            size="large"
-            multiple
-            style={{ width: '100%'}}
-            placeholder="Select tag(s)"
-            onChange={this.handleTagSelected}
-          >
-            { R.map(tag => <Option key={tag} value={tag}>{tag}</Option>, R.keys(tagColors)) }
-          </Select>
-            ||
-          <Input size="large" placeholder="Enter your filter" onChange={this.handleInputFilling} />
-        }
+          { searchOption === 'tags' &&
+            <Select
+              size="large"
+              multiple
+              style={{ width: '100%'}}
+              placeholder="Select tag(s)"
+              onChange={handleTagSelected}
+            >
+              { R.map(tag => <Option key={tag} value={tag}>{tag}</Option>, R.keys(tagColors)) }
+            </Select>
+              ||
+            <Input
+              size="large"
+              placeholder="Enter your filter"
+              onChange={handleInputFilling}
+            />
+          }
       
       </InputGroupStyle>
     )

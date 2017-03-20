@@ -226,3 +226,10 @@ export const tagColors = {
   lua: 'brown',
   webTools: 'wheat',
 }
+
+export const titleColors = {
+  c: 'darkorange',
+  web: 'seagreen',
+  python: 'cornflowerblue',
+  security: 'black',
+}

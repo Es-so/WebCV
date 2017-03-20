@@ -3,10 +3,11 @@ import R from 'ramda';
 import styled from 'styled-components';
 import { Card, Icon, Tag, Button } from 'antd';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux';
 import { loadProjects, getTypeList } from '../../actions/projects';
 import { getWichProjects } from '../../selectors/projects';
-import { tagColors } from '../../utils/projects';
+import { tagColors, titleColors } from '../../utils/projects';
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,13 +23,19 @@ const FooterStyle = styled.div`
   padding: 10px;
 `;
 
+const ButtonTryStyle = styled(Button)`
+  float: right;
+  background: yellow;
+  color: crimson;
+`;
+
 const Footer = ({ tags, tryIt }) =>
   <FooterStyle>
   {
   	R.map(tag => (<Tag key={tag} color={tagColors[tag]}>{tag}</Tag>) , tags)
   }
   { tryIt ?
-    <Button size="small" style={{float: 'right', background: 'whitesmoke'}}>Try it!</Button>
+    <ButtonTryStyle size="small">Try it!</ButtonTryStyle>
     :
     null
   }
@@ -49,7 +56,13 @@ class List extends React.Component {
         R.map((project) => 
           (<Card
             key={project.id}
-            title={<a href="#"> {project.title}</a>}
+            title={
+              (
+                <div style={{ color: titleColors[project.categorie] }}>
+                  {project.title}
+                </div>
+              )
+            }
             extra={
               <a style={{fontSize: '1.5em'}} href="#">
                 <Icon type="github" onClick={(e) => console.log(e)} />
@@ -57,7 +70,10 @@ class List extends React.Component {
             }
             style={{ width: 350, margin: '10px' }}
           >
-            <p style={{ marginBottom: '20px' }} >{project.content}</p>
+          <Link to={`/projects/${project.id}`}>
+            <Button size="small" style={{ float: 'right', marginTop: '-20px' }} > Tech sheet </Button>
+          </Link>
+              <p style={{ marginBottom: '20px' }} >{project.content}</p>
             <Footer tags={project.tags} tryIt={project.tryIt} />
           </Card>)
       ,projects)
