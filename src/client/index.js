@@ -32,4 +32,4 @@ const root = (
   </Provider>
 )
 
-render(root, main)
+render(root, main);

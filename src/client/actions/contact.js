@@ -1,10 +1,10 @@
-import tags from '../utils/projects';
+import { tags } from '../utils/projects';
 
-export const TAGS_LOADED = 'projects/getSort';
+export const TAGS_LOADED = 'contact/loadTags';
 
 export const tagsLoaded = tags => ({
   type: TAGS_LOADED,
-  payload: tags,
+  tags,
 });
 
 export const loadTags = () => (dispatch) => {

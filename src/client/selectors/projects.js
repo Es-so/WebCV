@@ -11,7 +11,7 @@ const filterTags = (tags, projects) => tags.length ? R.filter(p => matchTags(tag
 const filterProjects = (filter, option, projects) => R.filter(project => match(filter, project[option]).length, projects)
 const filterCategorie = (type, allProjects) => type !== 'all' ? R.filter(({ categorie }) => (categorie === R.toLower(type)), allProjects) : allProjects;
 const diff = (a, b, sort) => sort === 'title' ? a[sort].localeCompare(b[sort]) : b[sort] - a[sort];
-const sorting = (sort, projects) => R.sort((a, b) => diff(a, b, sort))(projects)
+const sorting = (sort, projects) => R.sort((a, b) => diff(a, b, sort))(projects);
 
 const getVisibleProject = (type = 'all', projects, filter = '', option = 'title', tags = [], sort = 'title') => {
   const allProjects = R.compose(getArrayOfProjects, getArraysOfProjects)(projects);

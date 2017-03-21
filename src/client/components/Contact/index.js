@@ -9,55 +9,116 @@ import styled from 'styled-components';
 import fields from '../../form/';
 import { loadTags } from  '../../actions/contact';
 
+const FormItem = Form.Item;
+const Option = Select.Option;
+
 const FormStyle = styled(Form)`
   display: flex;
   flex-flow: column;
   justify-content: center;
+  width: 70%;
+  min-width: 250px;
+  max-width: 500px;
 `
 
-const FormItem = Form.Item;
-const Option = Select.Option;
 
 class Contact extends React.Component {
   componentWillMount() {
     const { loadTags } = this.props;
     loadTags();
   }
+  state = {
+    confirmDirty: false,
+  };
+  
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+  
+  handleConfirmBlur = (e) => {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  }
+  
+  checkConfirm = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  }
+
+
   render() {
-    const { form: { getFieldDecorator } } = this.props;
+    const { form: { getFieldDecorator }, tags } = this.props;
+    if (!tags) return null;
     return(
-        <FormStyle onSubmit={console.log}>
-          
-           <FormItem
-            label="E-mail"
-            hasFeedback
-          >
-            {getFieldDecorator('email', {
-              rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
-              }, {
-                required: true, message: 'Please input your E-mail!',
-              }],
-            })(
-              <Input />
-            )}
-          </FormItem>
+      <FormStyle onSubmit={this.handleSubmit}>
+        
+        <FormItem label={fields.name.label} hasFeedback>
+          {getFieldDecorator(fields.name.key, fields.name)(<Input />)}
+        </FormItem>
 
-          <Button htmlType="submit" style={{margin: '3px', backgroudColor: 'red'}} type="primary">
-             Submit<Icon type="check" />
-          </Button>
-        </FormStyle>
 
+        <FormItem label={fields.email.label} hasFeedback>
+          {getFieldDecorator(fields.email.key, fields.email)(<Input />)}
+        </FormItem>
+
+
+        <FormItem label={fields.phone.label} hasFeedback>
+          {getFieldDecorator(fields.phone.key, fields.phone)(<Input />)}
+        </FormItem>
+
+
+        <FormItem label={fields.tags.label} >
+          {getFieldDecorator(fields.tags.key, fields.tags)(
+              <Select
+                multiple
+              >
+               { R.map(tag => <Option key={tag} value={tag}>{tag}</Option>, tags) }
+              </Select>
+          )}
+        </FormItem>
+
+
+        <FormItem label={fields.content.label}>
+          { getFieldDecorator(fields.content.key, fields.content)(
+          <Input
+            style={{ minHeight: '150px' }}
+            autoComplete="off"
+            type="textarea"
+            rows={4}
+          />
+          )}
+        </FormItem>
+
+        <Button htmlType="submit" style={{margin: '3px', backgroudColor: 'red'}} type="primary">
+           Submit<Icon type="check" />
+        </Button>
+
+      </FormStyle>
     );
   }
 }
 
 
 const actions = { loadTags };
-const mapStateToProps = state => state;
+
+const mapStateToProps = state => ({
+  tags: state.contact.tags,
+});
+
+
+
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 export default R.compose(
   Form.create(),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps))(Contact);
+

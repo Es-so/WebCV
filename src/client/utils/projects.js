@@ -228,9 +228,27 @@ export const tagColors = {
   mongo: 'gold',
 }
 
+export const tags = [
+  'c',
+  'python',
+  'unix',
+  'react',
+  'javascript',
+  'node',
+  'php',
+  'html/css',
+  'sql',
+  'asm',
+  'lua',
+  'webTools',
+  'mongo',
+]
+
 export const titleColors = {
   c: 'darkorange',
   web: 'seagreen',
   python: 'cornflowerblue',
   security: 'black',
 }
+
+
