@@ -39,6 +39,12 @@ const routes = [
     auth: true,
   },
   {
+    path: '/projects/show/:id',
+    component: Tt,
+    exact: true,
+    auth: true,
+  },
+  {
     path: '/contact',
     component: Contact,
     exact: true,

@@ -21,6 +21,19 @@ const FormStyle = styled(Form)`
   max-width: 500px;
 `
 
+// ______________________ Test ___________________________________
+
+function sendMail() {
+  var link = "mailto:khatir.sofiane@gmail.com"
+           + "?cc=skhatir@student.42.fr"
+           + "&subject=" + escape("This is my subject")
+           + "&body=" + escape("test")
+  ;
+  window.location.href = link;
+}
+
+//________________________________________________________________
+
 
 class Contact extends React.Component {
   componentWillMount() {
@@ -36,15 +49,16 @@ class Contact extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        sendMail();
       }
     });
   }
-  
+
   handleConfirmBlur = (e) => {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
-  
+
   checkConfirm = (rule, value, callback) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
@@ -53,7 +67,6 @@ class Contact extends React.Component {
     callback();
   }
 
-
   render() {
     const { form: { getFieldDecorator }, tags } = this.props;
     if (!tags) return null;
@@ -61,7 +74,7 @@ class Contact extends React.Component {
       <FormStyle onSubmit={this.handleSubmit}>
         
         <FormItem label={fields.name.label} hasFeedback>
-          {getFieldDecorator(fields.name.key, fields.name)(<Input />)}
+          {getFieldDecorator(fields.name.key, fields.name)(<Input placeholder="Name" />)}
         </FormItem>
 
 
