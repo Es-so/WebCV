@@ -143,8 +143,8 @@ export const projects = {
     phpPool: {
       id: (id += 1),
       title: 'PHP pool',
-      tags: ['php', 'html/css', 'sql'],
-      content: '2 weeks of web learning about PHP, SQL db, html/css, and one day about javascript and jquery ',
+      tags: ['php', 'html/css', 'MySql'],
+      content: '2 weeks of web learning about PHP, MySQL db, html/css, and one day about javascript and jquery ',
       githubLink: '#',
       size: 2,
       dateOf: 2016,
@@ -179,7 +179,7 @@ export const projects = {
     rootMeWeb: {
       id:(id += 1),
       title: 'Root me Web Server/Client',
-      tags: ['javascript', 'php', 'webTools', 'sql'],
+      tags: ['javascript', 'php', 'webTools', 'MySql'],
       content: 'Series of challenge from plateform www.root-me.org in categorie web server and web client',
       githubLink: '#',
       size: 8,
@@ -221,7 +221,7 @@ export const tagColors = {
   node: 'purple',
   php: 'green',
   'html/css': 'darkgreen',
-  sql: 'cadetblue',
+  MySql: 'cadetblue',
   asm: 'lightgrey',
   lua: 'brown',
   webTools: 'wheat',
@@ -237,18 +237,28 @@ export const tags = [
   'node',
   'php',
   'html/css',
-  'sql',
+  'MySql',
   'asm',
   'lua',
   'webTools',
   'mongo',
 ]
 
-export const titleColors = {
-  c: 'darkorange',
-  web: 'seagreen',
-  python: 'cornflowerblue',
-  security: 'black',
+export const titleStyle = {
+  c: {
+    color: 'darkorange',
+    icon: 'code'
+  },
+  web: {
+    color: 'seagreen',
+    icon: 'global'
+  },
+  python: {
+    color: 'cornflowerblue',
+    icon: 'tool'
+  },
+  security: {
+    color: 'black',
+    icon: 'key'
+  },
 }
-
-

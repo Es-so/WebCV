@@ -1,17 +1,10 @@
 import React from 'react';
+
 import Home from './components/Home'
 import Projects from './components/Projects'
+import Project from './components/Project'
 import Contact from './components/Contact'
-import ReactMarkdown from 'react-markdown';
 
-const input = '# This is a header\n\nAnd this is a paragraph';
-
-const Tt = () =>
-  <div>
-  on progress
-    <ReactMarkdown source={input} />,
-  </div>
-;
 
 const routes = [
   {
@@ -33,14 +26,14 @@ const routes = [
     auth: true,
   },
   {
-    path: '/projects/:id',
-    component: Tt,
+    path: '/projects/:categorie/:name/:id',
+    component: Project,
     exact: true,
     auth: true,
   },
   {
     path: '/projects/show/:id',
-    component: Tt,
+    component: Project, // todo ==> ShowProject
     exact: true,
     auth: true,
   },

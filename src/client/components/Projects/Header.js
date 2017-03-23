@@ -1,8 +1,9 @@
 import React from 'react';
-import { Input, Radio, Menu, Dropdown, Icon, Button, Select } from 'antd';
-import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Input, Radio, Menu, Dropdown, Icon, Button, Select } from 'antd';
+import styled from 'styled-components';
 import { getTypeList, getFiltering, getTags, getSort } from '../../actions/projects';
 import { tagColors } from '../../utils/projects';
 import R from 'ramda';
@@ -19,9 +20,9 @@ const Wrapper = styled.div`
 `;
 
 const InputGroupStyle = styled(InputGroup)`
-  width: auto;
+  width: auto !important;
   min-width: 350px;
-  display: flex;
+  display: flex !important;
   align-items: flex-start;
 `;
 
@@ -129,4 +130,4 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

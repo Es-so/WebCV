@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 
 import { loadProjects, getTypeList } from '../../actions/projects';
 import { getWichProjects } from '../../selectors/projects';
-import { tagColors, titleColors } from '../../utils/projects';
+import { tagColors, titleStyle } from '../../utils/projects';
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,9 +49,15 @@ class List extends React.Component {
     const { loadProjects } = this.props;
     loadProjects();
   }
+  handleSheet = ({ categorie, title, id}) => {
+    const { history: { push } } = this.props;
+    push(`/projects/${categorie}/${title}/${id}`);
+  }
+
   render() {
     const { projects } = this.props;
     if (!projects) return null;
+    console.log("======>", this.props)
     return(
       <Wrapper>
         {
@@ -60,7 +66,7 @@ class List extends React.Component {
             key={project.id}
             title={
               (
-                <div style={{ color: titleColors[project.categorie] }}>
+                <div style={{ color: titleStyle[project.categorie].color }}>
                   {project.title}
                 </div>
               )
@@ -72,9 +78,9 @@ class List extends React.Component {
             }
             style={{ width: 350, margin: '10px' }}
           >
-          <Link to={`/projects/${project.id}`}>
-            <Button size="small" style={{ float: 'right', marginTop: '-20px' }} > Tech sheet </Button>
-          </Link>
+
+            <Button size="small" style={{ float: 'right', marginTop: '-20px' }} onClick={() => this.handleSheet(project)} > Tech sheet </Button>
+
               <p style={{ marginBottom: '20px' }} >{project.content}</p>
             <Footer tags={project.tags} tryIt={project.tryIt} />
           </Card>)
