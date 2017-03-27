@@ -21,7 +21,7 @@ const App = ({ history,home, projects, contact }) => {
   return(
     <div>
       <Header onClick={handleClick} />
-      <Content>
+      <Content style={{ marginTop: '80px' }}>
         <Switch>
           {routes.map((route, index) => (
             <Route
@@ -33,6 +33,7 @@ const App = ({ history,home, projects, contact }) => {
           ))}
         </Switch>
       </Content>
+      <img style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', zIndex: '-1'}} src={"http://www.coalescentdesign.com/_img/footer_bg.jpg"} />
     </div>
   )
 };

@@ -12,7 +12,7 @@ class Navigation extends React.Component {
 
   render() {
     return (
-    <Header>
+    <Header style={{ position: 'fixed', width: '100%', top: '0', zIndex: 100 }}>
       <Menu
         theme="dark"
         mode="horizontal"
