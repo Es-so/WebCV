@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import R from 'ramda';
 import styled from 'styled-components';
 import { Card, Icon, Tag, Button } from 'antd';
@@ -27,8 +27,7 @@ const FooterStyle = styled.div`
 
 const ButtonTryStyle = styled(Button)`
   float: right;
-  background: yellow;
-  color: crimson;
+  color: lightred;
 `;
 
 const Footer = ({ tags, tryIt }) =>
@@ -44,6 +43,11 @@ const Footer = ({ tags, tryIt }) =>
   </FooterStyle>
 ;
 
+Footer.propTypes = {
+  tags: PropTypes.array.isRequired,
+  tryIt: PropTypes.bool.isRequired,
+}
+
 class List extends React.Component {
   componentWillMount() {
     const { loadProjects } = this.props;
@@ -57,7 +61,6 @@ class List extends React.Component {
   render() {
     const { projects } = this.props;
     if (!projects) return null;
-    console.log("======>", this.props)
     return(
       <Wrapper>
         {
@@ -89,6 +92,10 @@ class List extends React.Component {
     </Wrapper>
     );
   }
+}
+
+List.propTypes = {
+  projects: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = state => ({

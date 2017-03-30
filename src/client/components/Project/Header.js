@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 import { Icon, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
@@ -22,16 +22,21 @@ const Title = styled.h2`
   margin-left: auto;
 `;
 
-const Header = ({ project, history }) =>
+const Header = ({ project, history: { push } }) =>
   <HeaderStyle style={{ color: `${titleStyle[project.categorie].color}` }} >
     <Icon style={{ fontSize: '1.5em' }} type={ titleStyle[project.categorie].icon } />
     
     <Title > { project.title } </Title>
     
-    <Button type="primary" onClick={() => history.push('/projects')} ghost>
+    <Button type="primary" onClick={() => push('/projects')} ghost>
       Go back <Icon type="left" />
     </Button>
   </HeaderStyle>
 ;
+
+Header.propTypes = {
+  project: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+}
 
 export default Header;

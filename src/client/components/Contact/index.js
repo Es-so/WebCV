@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import R from 'ramda';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
@@ -9,14 +9,14 @@ import styled from 'styled-components';
 import fields from '../../form/';
 import { loadTags } from  '../../actions/contact';
 
-const FormItem = Form.Item;
+export const FormItem = Form.Item;
 const Option = Select.Option;
 
-const FormStyle = styled(Form)`
+export const FormStyle = styled(Form)`
   display: flex;
   flex-flow: column;
   justify-content: center;
-  width: 70%;
+  width: 80%;
   min-width: 250px;
   max-width: 500px;
 `
@@ -35,7 +35,7 @@ function sendMail() {
 //________________________________________________________________
 
 
-class Contact extends React.Component {
+export class Contact extends React.Component {
   componentWillMount() {
     const { loadTags } = this.props;
     loadTags();
@@ -119,6 +119,10 @@ class Contact extends React.Component {
   }
 }
 
+Contact.propTypes = {
+  tags: PropTypes.array,
+  form: PropTypes.object,
+}
 
 const actions = { loadTags };
 

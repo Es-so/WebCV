@@ -7,7 +7,6 @@ const { Header } = Layout;
 
 class Navigation extends React.Component {
 
-  // handleRedirect = (location = '/Projects') => window.location.replace(location);
   handleRedirect = (key) => this.props.onClick(key);
 
   render() {
@@ -24,6 +23,14 @@ class Navigation extends React.Component {
         <Menu.Item key="projects">Projects</Menu.Item>
         <Menu.Item key="contact">Contact</Menu.Item>
       </Menu>
+      <div style={{
+        float: 'right',
+        fontSize: '2em',
+        position: 'fixed',
+        top: 0,
+        right: 15,
+        color: 'white'
+      }}> Website in progress...</div>
     </Header>
     );
   }

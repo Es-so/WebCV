@@ -10,13 +10,21 @@ import routes, { defaultRoute } from '../../routes';
 export const Content = styled(Layout.Content)`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 80px;
   margin-left: auto;
-  margin-right: auto;
+  margin-right:      auto;
   width: 90%;
 `;
 
-const App = ({ history,home, projects, contact }) => {
+export const ImgStyle = styled.img`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  zIndex: -1;
+`;
+
+export const App = ({ history,home, projects, contact }) => {
   const handleClick = (path) => history.push(`/${path}`);
   return(
     <div>
@@ -33,15 +41,15 @@ const App = ({ history,home, projects, contact }) => {
           ))}
         </Switch>
       </Content>
-      <img style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', zIndex: '-1'}} src={"http://www.coalescentdesign.com/_img/footer_bg.jpg"} />
+      <ImgStyle src={"http://www.coalescentdesign.com/_img/footer_bg.jpg"} />
     </div>
   )
 };
 
 App.propTypes = {
-  home: PropTypes.object,
-  projects: PropTypes.object,
-  contact: PropTypes.object,
+  home: PropTypes.object.isRequired,
+  projects: PropTypes.object.isRequired,
+  contact: PropTypes.object.isRequired,
 };
 
 const actions = {};

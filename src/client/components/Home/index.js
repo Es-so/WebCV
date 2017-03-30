@@ -1,24 +1,16 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 import R from 'ramda';
 import { Progress, Tag, Button, icon } from 'antd';
 import { home } from '../../utils/home';
 import ReactMarkdown from 'react-markdown';
+import Header from './Header'
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-flow: column;
   justify-content: center;
-`;
-
-const HeaderStyle = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: row wrap !important;
-  margin-top: 20px;
-  min-width: 450px;
 `;
 
 const Title = styled.h2`
@@ -30,13 +22,22 @@ const LeftStripStyle = styled.div`
   height: 50px;
   padding: 10px;
   background-image:linear-gradient(left, #00a8cb, white);
-  border-radius: 0 10px 0 0;
+  border-radius: 0 10px 10px 0;
   margin-left: -5%;
   &:hover {
     cursor: pointer;
     color: #00a8cb;
     background-image:linear-gradient(right, #00a8cb, white) !important;
   }
+`;
+
+const WrapperRightStyle = styled.div`
+  display: flex;
+  flexFlow: column;
+  alignItems: flex-end;
+  width: 100%;
+  justifyContent: flex-end;
+  marginRight: -5%;
 `;
 
 const RightStripStyle = styled.div`
@@ -47,7 +48,7 @@ const RightStripStyle = styled.div`
   margin-top: 40px;
   padding: 10px;
   background-image:linear-gradient(right, #002f65, white);
-  border-radius: 0 0 0 10px;
+  border-radius: 10px 0 0 10px;
   margin-right: -5%;
   &:hover {
   	color: #002f65;
@@ -66,49 +67,23 @@ const SkillStyle = styled.div`
 `;
 
 const AboutStyle = styled.div`
-  background: white;
+background-image:linear-gradient(right, white, rgba(255,0,0,0));
   justify-content: flex-end;
   margin-right: -5%;
   width: 80%;
 `;
 
-const Card = '\
-```js\n\
-const data = {\n\
-  name: "Sofiane Khatir",\n\
-  status: "Student/Developer",\n\
-  mail: "skhatir@student.42.fr",\n\
-  phone: `curl http://0.0.0.0:3000/home | grep "phone:[ .0-9]*` ;)"\n\
-}\n\
-\n\
-const Card = ({ data: { name, status, mail, phone } }) => {\n\
-  const head = `${name}: ${status}`;\n\
-  return(\n\
-    <div>\n\
-      {\n\
-        [\n\
-          `${name} | ${status}`,<br />,\n\
-          `email: ${mail}` ,<br />,\n\
-          `phone: ${phone}`\n\
-        ]\n\
-      }\n\
-    </div>\n\
-  )\n\
-}\n\
-```\n\
-'
-
-const Header = () =>
-  <HeaderStyle>
-  <img src={"./SKdevelop.png"} />
-    <div style={{ borderLeft: '15px solid lavender', minWidth: '475px'}}>
-    <ReactMarkdown source={Card} />
-    </div>
-  </HeaderStyle>
-;
-
 const FieldTitle = styled.h3`
   display: inline;
+`;
+
+const ButtonStyle = styled(Button)`
+  width: 60%;
+  minWidth: 500px;
+  marginBottom: 40px;
+  marginLeft: auto;
+  marginRight: auto;
+  height: 50px;
 `;
 
 const AboutFormat = (field, answer) =>
@@ -143,8 +118,19 @@ class Home extends React.Component {
   }
 
   render() {
-  	console.log(home, home.skills)
-  	const { skills, aboutMe } = home;
+  	const {
+  	  skills,
+  	  aboutMe : {
+  	    name,
+  	    age,
+  	    status,
+  	    description,
+  	    location,
+  	    email,
+  	    hobbies,
+  	  }
+  	} = home;
+    
     const LeftStrip = () =>
        <LeftStripStyle onClick={() => this.handleShow('about')}>
           <Title> Skills </Title>
@@ -152,7 +138,7 @@ class Home extends React.Component {
     ;
 
     const RightStrip = () =>
-      <div style={{  display: 'flex', flexFlow: 'column', alignItems: 'flex-end', width: '100%', justifyContent: 'flex-end', marginRight: '-5%' }}>
+      <WrapperRightStyle>
         <RightStripStyle onClick={() => this.handleShow('skill')}>
           <Title> About </Title>
         </RightStripStyle>
@@ -160,25 +146,27 @@ class Home extends React.Component {
         <div style={{ width: '80%'}}>
         {
           [
-            AboutFormat("Name", aboutMe.name),
-            AboutFormat("Age", aboutMe.age),
-            AboutFormat("Status", aboutMe.status),
-            AboutFormat("Description", aboutMe.description),
-            AboutFormat("Location", aboutMe.location),
-            AboutFormat("Email", aboutMe.email),
-            Hobbies(aboutMe.hobbies),
+            AboutFormat("Name", name),
+            AboutFormat("Age", age),
+            AboutFormat("Status", status),
+            AboutFormat("Description", description),
+            AboutFormat("Location", location),
+            AboutFormat("Email", email),
+            Hobbies(hobbies),
           ]
         }
         </div>
-        <div><img src='./profil.png' /> </div>
+        <img src='./profil.png' />
         </AboutStyle>
-      </div>
+      </WrapperRightStyle>
     ;
 
     return (
       <Wrapper>
         <Header />
-        <Button style={{ width: '60%', minWidth: '500px', marginBottom: '40px', marginLeft: 'auto', marginRight: 'auto' , height: '50px' }} type="primary" icon="download" size="default">Download my CV!</Button>
+        <ButtonStyle type="primary" icon="download" size="default">
+          Download my CV! (unavailable yet)
+        </ButtonStyle>
         <LeftStrip />
           <SkillStyle style={{ display: this.state.about ? 'block' : 'none' }}>
           { R.map((s) =>
@@ -187,7 +175,7 @@ class Home extends React.Component {
           	<Title>{s.langage}</Title>,
             <Progress style={{ boxShadow: '10px black' }} key={s.langage} percent={s.grade} showInfo={false} status="active" />
             ]
-          ), home.skills) }
+          ), skills) }
           </SkillStyle>
 
         <RightStrip />
@@ -196,4 +184,31 @@ class Home extends React.Component {
   }
 }
 
+
+
 export default Home;
+
+
+// __________________________________________ DOWNLOAD CV
+
+// function download(filename, text) {
+//     var element = document.createElement('a');
+//     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+//     element.setAttribute('download', filename);
+
+//     element.style.display = 'none';
+//     document.body.appendChild(element);
+
+//     element.click();
+
+//     document.body.removeChild(element);
+// }
+
+// // Start file download.
+// document.getElementById("dwn-btn").addEventListener("click", function(){
+//     // Generate download of hello.txt file with some content
+//     var text = document.getElementById("text-val").value;
+//     var filename = "hello.txt";
+    
+//     download(filename, text);
+// }, false);
